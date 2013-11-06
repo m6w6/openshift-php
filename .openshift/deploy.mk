@@ -1,5 +1,5 @@
 PECLCMD = ./php/bin/pecl -c .pearrc
-PHPEXTS = `./php/bin/php-config --extension-dir`
+PHPEXTS = $(shell ./php/bin/php-config --extension-dir)
 CURRENT = $(OPENSHIFT_DEPLOYMENTS_DIR)/current/repo/
 
 all: ini httpd/logs/httpd.pid
