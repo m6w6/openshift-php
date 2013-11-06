@@ -19,4 +19,4 @@ php/lib/php.ini: $(CURRENT)/.openshift/php.ini.in
 httpd/conf/httpd.conf: $(CURRENT)/.openshift/httpd.conf.in
 	(echo "# generated file; do not edit"; envsubst < $^) > $@
 httpd/logs/httpd.pid: httpd/conf/httpd.conf php/lib/php.ini
-	test -f $@ && ./httpd/bin/apachectl restart
+	test -f $@ && ./httpd/bin/apachectl restart || true
