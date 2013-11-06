@@ -56,7 +56,7 @@ LogLevel warn
 	<IfModule logio_module>
 	  LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
 	</IfModule>
-	CustomLog "OPENSHIFT_DIY_LOG_DIR/httpd-access.log" common
+	CustomLog "$OPENSHIFT_DIY_LOG_DIR/httpd-access.log" common
 </IfModule>
 
 <IfModule mime_module>
