@@ -3,9 +3,9 @@ PECLCMD  = ./php/bin/pecl -c .pearrc
 PEARCMD  = ./php/bin/pear -c .pearrc
 CURRENT  = $(OPENSHIFT_DEPLOYMENTS_DIR)/current/repo/
 EXTDIR   = $(shell ./php/bin/php-config --extension-dir)
-EXTNAMES = $(shell $(CURRENT)/dep.awk < $(CURRENT)/pecl.dep | cut -f1)
-VERSIONS = $(shell $(CURRENT)/dep.awk < $(CURRENT)/pecl.dep | cut -f2)
-LIBNAMES = $(shell $(CURRENT)/dep.awk < $(CURRENT)/pecl.dep | cut -f3)
+EXTNAMES = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.dep | cut -f1)
+VERSIONS = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.dep | cut -f2)
+LIBNAMES = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.dep | cut -f3)
 EXTFILES = $(addprefix $(EXTDIR)/, $(LIBNAMES))
 
 all: ini $(EXTFILES) httpd/conf/httpd.conf
