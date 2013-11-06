@@ -1,6 +1,8 @@
 # generated file; do not edit
 ServerRoot "$OPENSHIFT_DATA_DIR/httpd"
-ServerAdmin you@example.com
+ServerAdmin hostmaster@$OPENSHIFT_APP_DNS
+ServerName $OPENSHIFT_APP_DNS
+ServerTokens Prod
 
 LoadModule authn_file_module modules/mod_authn_file.so
 LoadModule authn_core_module modules/mod_authn_core.so
@@ -30,8 +32,9 @@ Listen $OPENSHIFT_DIY_IP:$OPENSHIFT_DIY_PORT
 	Require all denied
 </Directory>
 
-DocumentRoot "$OPENSHIFT_DEPLOYMENTS_DIR/current/public"
-<Directory "$OPENSHIFT_DEPLOYMENTS_DIR/current/public">
+DocumentRoot "$OPENSHIFT_DEPLOYMENTS_DIR/current/repo/public"
+
+<Directory "$OPENSHIFT_DEPLOYMENTS_DIR/current/repo/public">
 	Options Indexes FollowSymLinks
 	AllowOverride All
 	Require all granted
