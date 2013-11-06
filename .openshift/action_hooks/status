@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -XOPTIONS http://$OPENSHIFT_DIY_IP:$OPENSHIFT_DIY_PORT/

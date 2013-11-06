@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+cd $OPENSHIFT_DATA_DIR
+make -f $OPENSHIFT_REPO_DIR/.openshift/build.mk

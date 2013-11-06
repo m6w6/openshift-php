@@ -1,0 +1,2 @@
+#!/bin/bash
+$OPENSHIFT_DATA_DIR/httpd/bin/apachectl restart
