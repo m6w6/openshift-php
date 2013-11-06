@@ -1,42 +1,59 @@
-all: php/lib/libphp5.so
+PCRE_VERSION   = 8.33
+APR_VERSION    = 1.4.8
+APU_VERSION    = 1.5.2
+APACHE_VERSION = 2.4.6
+PHP_VERSION    = 5.5.5
 
-pcre-8.33/configure:
-	curl http://softlayer-dal.dl.sourceforge.net/project/pcre/pcre/8.33/pcre-8.33.tar.bz2 | tar xj
-pcre-8.33/config.status: pcre-8.33/configure
-	cd pcre-8.33 && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/pcre --disable-cpp --enable-unicode-properties
-pcre-8.33/Makefile: pcre-8.33/config.status
-	cd pcre-8.33 && ./config.status
-pcre/lib/libpcre.so: pcre-8.33/Makefile
-	cd pcre-8.33 && make -s -j3 install V=0
-apr-1.4.8/configure:
-	curl http://tweedo.com/mirror/apache//apr/apr-1.4.8.tar.bz2 | tar xj
-apr-1.4.8/config.status: apr-1.4.8/configure
-	cd apr-1.4.8 && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/apr --enable-nonportable-atomics
-apr-1.4.8/Makefile: apr-1.4.8/config.status
-	cd apr-1.4.8 && ./config.status
-apr/lib/libapr-1.so: apr-1.4.8/Makefile
-	cd apr-1.4.8 && make -s -j3 install V=0
-apr-util-1.5.2/configure:
-	curl http://tweedo.com/mirror/apache//apr/apr-util-1.5.2.tar.bz2 | tar xj
-apr-util-1.5.2/config.status: apr-util-1.5.2/configure
-	cd apr-util-1.5.2 && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/apu --with-apr=$(OPENSHIFT_DATA_DIR)/apr
-apr-util-1.5.2/Makefile: apr-util-1.5.2/config.status
-	cd apr-util-1.5.2 && ./config.status
-apu/lib/libaprutil-1.so: apr-util-1.5.2/Makefile
-	cd apr-util-1.5.2 && make -s -j3 install V=0
-httpd-2.4.6/configure:
-	curl http://tweedo.com/mirror/apache//httpd/httpd-2.4.6.tar.bz2 | tar xj
-httpd-2.4.6/config.status: pcre/lib/libpcre.so apu/lib/libaprutil-1.so apr/lib/libapr-1.so httpd-2.4.6/configure
-	cd httpd-2.4.6 &&  ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/httpd --enable-so --enable-http --enable-rewrite --with-mpm=prefork --with-apr=$(OPENSHIFT_DATA_DIR)/apr --with-apr-util=$(OPENSHIFT_DATA_DIR)/apu --with-pcre=$(OPENSHIFT_DATA_DIR)/pcre
-httpd-2.4.6/Makefile: httpd-2.4.6/config.status
-	cd httpd-2.4.6 && ./config.status
-httpd/bin/apxs:  httpd-2.4.6/Makefile
-	cd httpd-2.4.6 && make -s -j3 install V=0
-php-5.5.5/configure: 
-	curl http://us1.php.net/distributions/php-5.5.5.tar.bz2 | tar xj
-php-5.5.5/config.status: httpd/bin/apxs php-5.5.5/configure
-	cd php-5.5.5 && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/php --with-apxs2=$(OPENSHIFT_DATA_DIR)/httpd/bin/apxs --without-sqlite3 --without-pdo-sqlite --with-pear
-php-5.5.5/Makefile: php-5.5.5/config.status
-	cd php-5.5.5 && ./config.status
-php/lib/libphp5.so: php-5.5.5/Makefile
-	cd php-5.5.5 && make -s -j3 install V=0
+.PHONY: all
+all: httpd/modules/libphp5.so
+
+pcre-$(PCRE_VERSION)/configure:
+	curl http://softlayer-dal.dl.sourceforge.net/project/pcre/pcre/$(PCRE_VERSION)/pcre-$(PCRE_VERSION).tar.bz2 | tar xj
+pcre-$(PCRE_VERSION)/config.status: pcre-$(PCRE_VERSION)/configure
+	cd pcre-$(PCRE_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/pcre --disable-cpp --enable-unicode-properties
+pcre-$(PCRE_VERSION)/Makefile: pcre-$(PCRE_VERSION)/config.status
+	cd pcre-$(PCRE_VERSION) && ./config.status -q
+pcre-$(PCRE_VERSION)/.libs/libpcre.so: pcre-$(PCRE_VERSION)/Makefile
+	cd pcre-$(PCRE_VERSION) && make -s -j3 V=0 || make
+pcre/lib/libpcre.so: pcre-$(PCRE_VERSION)/.libs/libpcre.so
+	cd pcre-$(PCRE_VERSION) && make -s install V=0
+apr-$(APR_VERSION)/configure:
+	curl http://tweedo.com/mirror/apache//apr/apr-$(APR_VERSION).tar.bz2 | tar xj
+apr-$(APR_VERSION)/config.status: apr-$(APR_VERSION)/configure
+	cd apr-$(APR_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/apr --enable-nonportable-atomics
+apr-$(APR_VERSION)/Makefile: apr-$(APR_VERSION)/config.status
+	cd apr-$(APR_VERSION) && ./config.status -q
+apr-$(APR_VERSION)/.libs/libapr-1.so: apr-$(APR_VERSION)/Makefile
+	cd apr-$(APR_VERSION) && make -s -j3 V=0 || make
+apr/lib/libapr-1.so: apr-$(APR_VERSION)/.libs/libapr-1.so
+	cd apr-$(APR_VERSION) && make -s install V=0
+apr-util-$(APU_VERSION)/configure:
+	curl http://tweedo.com/mirror/apache//apr/apr-util-$(APU_VERSION).tar.bz2 | tar xj
+apr-util-$(APU_VERSION)/config.status: apr-util-$(APU_VERSION)/configure
+	cd apr-util-$(APU_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/apu --with-apr=$(OPENSHIFT_DATA_DIR)/apr
+apr-util-$(APU_VERSION)/Makefile: apr-util-$(APU_VERSION)/config.status
+	cd apr-util-$(APU_VERSION) && ./config.status -q
+apr-util-$(APU_VERSION)/.libs/libaprutil-1.so: apr-util-$(APU_VERSION)/Makefile
+	cd apr-util-$(APU_VERSION) && make -s -j3 V=0 || make
+apu/lib/libaprutil-1.so: apr-util-$(APU_VERSION)/.libs/libaprutil-1.so
+	cd apr-util-$(APU_VERSION) && make -s install V=0
+httpd-$(APACHE_VERSION)/configure:
+	curl http://tweedo.com/mirror/apache//httpd/httpd-$(APACHE_VERSION).tar.bz2 | tar xj
+httpd-$(APACHE_VERSION)/config.status: pcre/lib/libpcre.so apu/lib/libaprutil-1.so apr/lib/libapr-1.so httpd-$(APACHE_VERSION)/configure
+	cd httpd-$(APACHE_VERSION) &&  ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/httpd --enable-so --enable-http --enable-rewrite --with-mpm=prefork --with-apr=$(OPENSHIFT_DATA_DIR)/apr --with-apr-util=$(OPENSHIFT_DATA_DIR)/apu --with-pcre=$(OPENSHIFT_DATA_DIR)/pcre
+httpd-$(APACHE_VERSION)/Makefile: httpd-$(APACHE_VERSION)/config.status -q
+	cd httpd-$(APACHE_VERSION) && ./config.status
+httpd-$(APACHE_VERSION)/support/apxs: httpd-$(APACHE_VERSION)/Makefile
+	cd httpd-$(APACHE_VERSION) && make -s -j3 V=0 || make
+httpd/bin/apxs:  httpd-$(APACHE_VERSION)/support/apxs
+	cd httpd-$(APACHE_VERSION) && make -s install V=0
+php-$(PHP_VERSION)/configure:
+	curl http://us1.php.net/distributions/php-$(PHP_VERSION).tar.bz2 | tar xj
+php-$(PHP_VERSION)/config.status: httpd/bin/apxs php-$(PHP_VERSION)/configure
+	cd php-$(PHP_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/php --with-apxs2=$(OPENSHIFT_DATA_DIR)/httpd/bin/apxs --without-sqlite3 --without-pdo-sqlite --with-pear
+php-$(PHP_VERSION)/Makefile: php-$(PHP_VERSION)/config.status
+	cd php-$(PHP_VERSION) && ./config.status -q
+php-$(PHP_VERSION)/libs/libphp5.so: php-$(PHP_VERSION)/Makefile
+	cd php-$(PHP_VERSION) && make -s -j3 V=0 || make
+httpd/modules/libphp5.so: php-$(PHP_VERSION)/.libs/libphp5.so
+	cd php-$(PHP_VERSION) && make -s install V=0
