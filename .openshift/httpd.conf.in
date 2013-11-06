@@ -1,4 +1,3 @@
-# generated file; do not edit
 ServerRoot "$OPENSHIFT_DATA_DIR/httpd"
 ServerAdmin hostmaster@$OPENSHIFT_APP_DNS
 ServerName $OPENSHIFT_APP_DNS
@@ -13,6 +12,7 @@ LoadModule authz_core_module modules/mod_authz_core.so
 LoadModule access_compat_module modules/mod_access_compat.so
 LoadModule auth_basic_module modules/mod_auth_basic.so
 LoadModule reqtimeout_module modules/mod_reqtimeout.so
+LoadMofule rewrite_module modules/mod_rewrite.so
 LoadModule filter_module modules/mod_filter.so
 LoadModule mime_module modules/mod_mime.so
 LoadModule log_config_module modules/mod_log_config.so
@@ -71,16 +71,6 @@ LogLevel warn
 </IfModule>
 
 <IfModule php5_module>
-	<IfModule rewrite_module>
-		<IfDefine REWRITE_PHP>
-			RewriteEngine On
-			RewriteCond %{REQUEST_FILENAME} -f [OR]
-			RewriteCond %{REQUEST_FILENAME} -l [OR]
-			RewriteCond %{REQUEST_FILENAME} -d
-			RewriteRule - [L]
-			RewriteRule ^ index.php
-		</IfDefine>
-	</IfModule>
 	<FilesMatch "\.php$">
 		SetHandler application/x-httpd-php
 	</FilesMatch>
