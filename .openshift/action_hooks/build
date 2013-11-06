@@ -4,7 +4,10 @@ set -e
 cd $OPENSHIFT_DATA_DIR
 make -f $OPENSHIFT_REPO_DIR/.openshift/Makefile
 
-pecl config-set php_ini $OPENSHIFT_DATA_DIR/php/lib/php.ini
-pecl install raphf || pecl upgrade raphf
-pecl install propro || pecl upgrade propro
-pecl install pecl_http || pecl upgrade pecl_http
+pecl -c .pearrc config-set php_ini $OPENSHIFT_DATA_DIR/php/lib/php.ini
+pecl -c .pearrc install raphf \
+	|| pecl -c .pearrc upgrade raphf
+pecl -c .pearrc install propro \
+	|| pecl -c .pearrc upgrade propro
+pecl -c .pearrc install pecl_http \
+	|| pecl -c .pearrc upgrade pecl_http
