@@ -1,0 +1,9 @@
+#!/bin/bash
+
+(echo "# generated file; do not edit"; \
+	envsubst < $OPENSHIFT_DEPLOYMENTS_DIR/current/.openshift/httpd.conf.in \
+)> $OPENSHIFT_DATA_DIR/httpd/conf/httpd.conf
+
+(echo "; generated file; do not edit"; \
+	envsubst < $OPENSHIFT_DEPLOYMENTS_DIR/current/.openshift/php.ini.in \
+)> $OPENSHIFT_DATA_DIR/php/lib/php.ini

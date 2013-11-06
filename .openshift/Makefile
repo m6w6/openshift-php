@@ -4,8 +4,8 @@ APU_VERSION    = 1.5.2
 APACHE_VERSION = 2.4.6
 PHP_VERSION    = 5.5.5
 
-.PHONY: all
 all: httpd/modules/libphp5.so
+.PHONY: all
 
 pcre-$(PCRE_VERSION)/configure:
 	curl http://softlayer-dal.dl.sourceforge.net/project/pcre/pcre/$(PCRE_VERSION)/pcre-$(PCRE_VERSION).tar.bz2 | tar xj
