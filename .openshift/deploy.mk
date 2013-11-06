@@ -9,7 +9,7 @@ LIBNAMES = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.de
 EXTFILES = $(addprefix $(EXTDIR)/, $(LIBNAMES))
 
 all: ini $(EXTFILES) httpd/conf/httpd.conf
-	for ext in $(LIBNAMES); do grep -Eq "^[[:space:]]*extension[[:space::]*=[[:space:]]*$$ext" $(PHPINI) || echo "extension=$$ext" >> $(PHPINI); done
+	for ext in $(LIBNAMES); do grep -Eq "^[[:space:]]*extension[[:space:]]*=[[:space:]]*$$ext" $(PHPINI) || echo "extension=$$ext" >> $(PHPINI); done
 
 .PHONY: ini all
 
