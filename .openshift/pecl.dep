@@ -1,0 +1,14 @@
+# pecl dependencies
+# =================
+# package = pecl package name
+# version = general or specific package version
+# libname = name of the shared object if it differs from the package name
+# ---------------------------------------------------------------------------
+#
+# package,	version,	libname
+
+raphf,		stable
+propro,		stable
+pecl_http,	beta,		http.so
+markdown,	stable,		discount.so
+pdo_user,	stable
