@@ -11,4 +11,3 @@ raphf,		stable
 propro,		stable
 pecl_http,	beta,		http.so
 markdown,	stable,		discount.so
-pdo_user,	stable
