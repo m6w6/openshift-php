@@ -15,6 +15,9 @@ body {
 body>* {
 	margin-left: 1em;
 }
+body>ul {
+	margin-left: 2em;
+}
 
 .sidebar {
 	font-size: .9em;
@@ -24,11 +27,6 @@ body>* {
 	padding: 0;
 	width: auto;
 	padding-right: 1em;
-	/*
-	width: 520px;
-	margin-bottom: .2em;
-	margin-left: 2em;
-	* */
 }
 .sidebar>ul {
 }
@@ -68,10 +66,10 @@ p, pre {
 }
 
 blockquote {
-	border-radius: 4px;
-	border: 1px solid #800000;
+	border-top: 1px solid #800000;
+	border-bottom: 1px solid #800000;
 	background: #ffe4e1;
-	display: inline-block;
+	margin: 2em 0;
 }
 
 ul {
@@ -138,6 +136,11 @@ li h3 a {
 }
 li h3 a:hover {
 	text-decoration: underline;
+}
+
+#disqus_thread {
+	margin-top: 8em;
+	margin-right: 2em;
 }
 
 footer {
