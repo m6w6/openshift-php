@@ -1,2 +1,2 @@
 #!/bin/bash
-$OPENSHIFT_DATA_DIR/httpd/bin/apachectl stop
+$OPENSHIFT_DATA_DIR/httpd/bin/apachectl stop || true
