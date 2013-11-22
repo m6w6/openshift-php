@@ -7,7 +7,6 @@ Extended HTTP support. Again.
 * Introduces the http namespace.
 * PHP stream based message bodies.
 * Encapsulated env request/response.
-* Versatile error handling.
 * Modular client support.
 
 ## Installation:
