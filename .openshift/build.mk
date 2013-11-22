@@ -1,8 +1,8 @@
 PCRE_VERSION   = 8.33
-APR_VERSION    = 1.4.8
-APU_VERSION    = 1.5.2
+APR_VERSION    = 1.5.0
+APU_VERSION    = 1.5.3
 APACHE_VERSION = 2.4.6
-PHP_VERSION    = 5.5.5
+PHP_VERSION    = 5.5.6
 
 all: httpd/modules/libphp5.so
 .PHONY: all
@@ -53,7 +53,7 @@ php-$(PHP_VERSION)/config.status: httpd/bin/apxs php-$(PHP_VERSION)/configure
 	cd php-$(PHP_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/php --with-apxs2=$(OPENSHIFT_DATA_DIR)/httpd/bin/apxs --without-sqlite3 --without-pdo-sqlite --with-pear
 php-$(PHP_VERSION)/Makefile: php-$(PHP_VERSION)/config.status
 	cd php-$(PHP_VERSION) && ./config.status -q
-php-$(PHP_VERSION)/libs/libphp5.so: php-$(PHP_VERSION)/Makefile
+php-$(PHP_VERSION)/.libs/libphp5.so: php-$(PHP_VERSION)/Makefile
 	cd php-$(PHP_VERSION) && make -s -j3 V=0 || make
 httpd/modules/libphp5.so: php-$(PHP_VERSION)/.libs/libphp5.so
 	cd php-$(PHP_VERSION) && make -s install V=0
