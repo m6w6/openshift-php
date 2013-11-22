@@ -1,2 +1,2 @@
 #!/bin/bash
-[-x $OPENSHIFT_DATA_DIR/httpd/bin/apachectl ] && $OPENSHIFT_DATA_DIR/httpd/bin/apachectl stop || true
+[ -x $OPENSHIFT_DATA_DIR/httpd/bin/apachectl ] && $OPENSHIFT_DATA_DIR/httpd/bin/apachectl stop || true
