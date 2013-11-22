@@ -31,9 +31,9 @@ apr/lib/libapr-1.so: apr-$(APR_VERSION)/.libs/libapr-1.so
 
 apr-util-$(APU_VERSION)/configure:
 	curl http://tweedo.com/mirror/apache//apr/apr-util-$(APU_VERSION).tar.bz2 | tar xj
-apr-util-$(APU_VERSION)/config.status: apr-util-$(APU_VERSION)/configure 
+apr-util-$(APU_VERSION)/config.status: apr-util-$(APU_VERSION)/configure apr/lib/libapr-1.so
 	cd apr-util-$(APU_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/apu --with-apr=$(OPENSHIFT_DATA_DIR)/apr
-apr-util-$(APU_VERSION)/Makefile: apr-util-$(APU_VERSION)/config.status apr/lib/libapr-1.so
+apr-util-$(APU_VERSION)/Makefile: apr-util-$(APU_VERSION)/config.status
 	cd apr-util-$(APU_VERSION) && ./config.status -q
 apr-util-$(APU_VERSION)/.libs/libaprutil-1.so: apr-util-$(APU_VERSION)/Makefile
 	cd apr-util-$(APU_VERSION) && make -s -j3 V=0 || make
