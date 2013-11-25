@@ -24,7 +24,7 @@ $(EXTDIR)/%: | httpd/modules/libphp5.so
 	aE=($(EXTNAMES)); aV=($(VERSIONS)); aL=($(LIBNAMES)); \
 	for ((i=0; i < $${#aE[@]}; i++)); do \
 		if test $* = $${aL[$$i]}; then \
-			$(PECLCMD) install -f $${aE[$$i]}-$${aV[$$i]}; \
+			$(PECLCMD) install $${aE[$$i]}-$${aV[$$i]} || $(PECLCMD) upgrade $${aE[$$i]}-$${aV[$$i]}; \
 		fi; \
 	done
 
