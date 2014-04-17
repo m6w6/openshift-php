@@ -58,7 +58,7 @@ httpd/bin/apxs:  httpd-$(APACHE_VERSION)/support/apxs
 php-$(PHP_VERSION)/configure:
 	curl $(PHP_MIRROR)/php-$(PHP_VERSION).tar.bz2 | tar xj
 php-$(PHP_VERSION)/config.status: httpd/bin/apxs php-$(PHP_VERSION)/configure
-	cd php-$(PHP_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/php --with-apxs2=$(OPENSHIFT_DATA_DIR)/httpd/bin/apxs --without-sqlite3 --without-pdo-sqlite --with-pear
+	cd php-$(PHP_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/php --with-apxs2=$(OPENSHIFT_DATA_DIR)/httpd/bin/apxs --without-sqlite3 --without-pdo-sqlite --with-pear --with-openssl
 php-$(PHP_VERSION)/Makefile: php-$(PHP_VERSION)/config.status
 	cd php-$(PHP_VERSION) && ./config.status -q
 php-$(PHP_VERSION)/.libs/libphp5.so: php-$(PHP_VERSION)/Makefile
