@@ -1,6 +1,6 @@
 # Openshift PHP
 
-Build and setup Apache-2.4 and PHP-5.5 on RedHat's Openshift PaaS
+Build and setup Apache-2.4 and PHP-5.6 on RedHat's Openshift PaaS
 
 ## How to start:
 
