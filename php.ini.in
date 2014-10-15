@@ -1,5 +1,5 @@
 date.timezone = UTC
-display_erors = Off
+display_errors = Off
 log_errors = On
 error_log = $OPENSHIFT_DIY_LOG_DIR/php-error.log
 error_reporting = E_ALL
