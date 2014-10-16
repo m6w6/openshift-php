@@ -24,7 +24,7 @@ pcre/lib/libpcre.so: pcre-$(PCRE_VERSION)/.libs/libpcre.so
 	cd pcre-$(PCRE_VERSION) && make -s install V=0
 
 apr-$(APR_VERSION)/configure:
-	rm -rf apr-*
+	rm -rf apr-[^u]*
 	curl $(APACHE_MIRROR)/apr/apr-$(APR_VERSION).tar.bz2 | tar xj
 apr-$(APR_VERSION)/config.status: apr-$(APR_VERSION)/configure
 	cd apr-$(APR_VERSION) && ./configure -C --prefix=$(OPENSHIFT_DATA_DIR)/apr --enable-nonportable-atomics
