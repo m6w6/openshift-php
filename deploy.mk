@@ -26,11 +26,12 @@ ini: $(PHPINI)
 	$(PECLCMD) config-set php_ini $(OPENSHIFT_DATA_DIR)/$(PHPINI)
 	$(PEARCMD) config-set php_ini $(OPENSHIFT_DATA_DIR)/$(PHPINI)
 
-$(EXTDIR)/%: | httpd/modules/libphp5.so $(CURRENT)/.openshift/pecl.dep
+$(EXTDIR)/%: httpd/modules/libphp5.so $(CURRENT)/.openshift/pecl.dep
 	aE=($(EXTNAMES)); aV=($(VERSIONS)); aL=($(LIBNAMES)); \
 	for ((i=0; i < $${#aE[@]}; i++)); do \
 		if test $* = $${aL[$$i]}; then \
 			$(PECLCMD) install $${aE[$$i]}-$${aV[$$i]} || $(PECLCMD) upgrade $${aE[$$i]}-$${aV[$$i]}; \
+			./php/bin/php -m | grep -q $$aE[$$i] || $(PECLCMD) install -f $${aE[$$i]}-$${aV[$$i]}; \
 		fi; \
 	done
 
