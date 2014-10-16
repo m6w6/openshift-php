@@ -7,7 +7,7 @@
 #
 # package,	version,	libname
 
-raphf,		1.0.4
+raphf,		stable
 propro,		stable
-pecl_http,	2.1.2,		http.so
+pecl_http,	stable,		http.so
 markdown,	stable,		discount.so
