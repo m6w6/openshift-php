@@ -6,7 +6,7 @@ EXTDIR   = $(shell ./php/bin/php-config --extension-dir)
 EXTNAMES = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.dep | cut -f1)
 VERSIONS = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.dep | cut -f2)
 LIBNAMES = $(shell $(CURRENT)/.openshift/dep.awk < $(CURRENT)/.openshift/pecl.dep | cut -f3)
-EXTFILES = $(addprefix $(EXTDIR)/, $(LIBNAMES))
+EXTFILES = $(addsuffix .so, $(addprefix $(EXTDIR)/, $(LIBNAMES)))
 PROJECTS = $(wildcard $(CURRENT)/*/openshift.mk)
 
 export
@@ -29,9 +29,9 @@ ini: $(PHPINI)
 $(EXTDIR)/%: httpd/modules/libphp5.so $(CURRENT)/.openshift/pecl.dep
 	aE=($(EXTNAMES)); aV=($(VERSIONS)); aL=($(LIBNAMES)); \
 	for ((i=0; i < $${#aE[@]}; i++)); do \
-		if test $* = $${aL[$$i]}; then \
+		if test $* = $(EXTDIR)/$${aL[$$i]}.so; then \
 			$(PECLCMD) install $${aE[$$i]}-$${aV[$$i]} || $(PECLCMD) upgrade $${aE[$$i]}-$${aV[$$i]}; \
-			./php/bin/php -m | grep -q $$aE[$$i] || $(PECLCMD) install -f $${aE[$$i]}-$${aV[$$i]}; \
+			./php/bin/php -m | grep -q $$aL[$$i] || $(PECLCMD) install -f $${aE[$$i]}-$${aV[$$i]}; \
 		fi; \
 	done
 
