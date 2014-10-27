@@ -2,7 +2,7 @@ PCRE_VERSION   = 8.36
 APR_VERSION    = 1.5.1
 APU_VERSION    = 1.5.4
 APACHE_VERSION = 2.4.10
-PHP_VERSION    = 5.6.1
+PHP_VERSION    = 5.6.2
 
 PCRE_MIRROR    = http://softlayer-dal.dl.sourceforge.net/project/pcre/
 APACHE_MIRROR  = http://tweedo.com/mirror/apache/
