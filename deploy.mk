@@ -12,7 +12,7 @@ PROJECTS = $(wildcard $(CURRENT)/*/openshift.mk)
 export
 
 all: ini $(EXTFILES) httpd/conf/httpd.conf mk-projects
-	for ext in $(LIBNAMES); do grep -Eq "^[[:space:]]*extension[[:space:]]*=[[:space:]]*$$ext" $(PHPINI) || echo "extension=$$ext" >> $(PHPINI); done
+	for ext in $(LIBNAMES); do grep -Eq "^[[:space:]]*extension[[:space:]]*=[[:space:]]*$$ext.so" $(PHPINI) || echo "extension=$$ext.so" >> $(PHPINI); done
 
 .PHONY: ini all mk-projects
 
